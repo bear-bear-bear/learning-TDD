@@ -1,0 +1,33 @@
+{
+  "name": "learning-tdd",
+  "version": "1.0.0",
+  "description": "TDD로 작업한 기본적인 CRUD",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon --watch --exec babel-node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bear-bear-bear/learning-TDD.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bear-bear-bear/learning-TDD/issues"
+  },
+  "homepage": "https://github.com/bear-bear-bear/learning-TDD#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.13.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.14.8",
+    "@babel/core": "^7.14.8",
+    "@babel/node": "^7.14.7",
+    "@babel/preset-env": "^7.14.8",
+    "jest": "^27.0.6",
+    "node-mocks-http": "^1.10.1",
+    "nodemon": "^2.0.12",
+    "supertest": "^6.1.4"
+  }
+}
