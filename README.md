@@ -1,12 +1,14 @@
 ## learning-TDD
 기본적인 CRUD를 구현하며 학습한 TDD
-
+express, mongodb, jest, supertest
 ---
 <br>
 
-## Jest
+![테스트결과](./result.png)
+
+## jest
 ---
-Facebook에 의해 만들어진 테스팅 프레임워크. 최소한의 설정으로 동작. Unit테스트를 위해 사용.
+Facebook에 의해 만들어진 테스팅 프레임워크. 최소한의 설정으로 동작. Unit 테스트를 위해 사용.
 
 <br>
 
@@ -33,3 +35,7 @@ decribe
   |_ (test) it
   |_ (test) it
 ```
+
+## supertest
+---
+jest 하나만으론 불가능한 Intergration 테스트를 위해 사용.
