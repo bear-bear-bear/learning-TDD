@@ -17,6 +17,12 @@ app.get('/', (req, res) => {
   res.send('Hello');
 });
 
+app.use((error, req, res, next) => {
+  res.status(500).json({ message: error.message });
+});
+
 app.listen(PORT, () => {
   console.log(`Running on http://localhost:${PORT}`);
 });
+
+export default app;
