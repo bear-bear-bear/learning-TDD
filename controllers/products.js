@@ -10,5 +10,6 @@ export const createProduct = async (req, res, next) => {
 };
 
 export const getProducts = async (req, res, next) => {
-  await Product.find({});
+  const products = await Product.find({});
+  res.status(200).json(products);
 };

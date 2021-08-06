@@ -4,6 +4,7 @@ import { createResponse } from 'node-mocks-http/lib/mockResponse';
 import { createProduct, getProducts } from '../../controllers/products';
 import Product from '../../models/Product';
 import mockProduct from '../mock-data/product.json';
+import mockProducts from '../mock-data/products.json';
 
 // mock
 Product.create = jest.fn();
@@ -58,5 +59,17 @@ describe('Product Controller Get', () => {
   it('should call Product.find({})', async () => {
     await getProducts(req, res, next);
     expect(Product.find).toHaveBeenCalledWith({});
+  });
+
+  it('should return 200 response', async () => {
+    await getProducts(req, res, next);
+    expect(res.statusCode).toBe(200);
+    expect(res._isEndCalled).toBeTruthy();
+  });
+
+  it('should return json body in response', async () => {
+    Product.find.mockReturnValue(mockProducts);
+    await getProducts(req, res, next);
+    expect(res._getJSONData()).toStrictEqual(mockProducts);
   });
 });
