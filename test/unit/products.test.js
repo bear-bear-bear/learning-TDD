@@ -11,9 +11,12 @@ Product.create = jest.fn();
 Product.find = jest.fn();
 Product.findById = jest.fn();
 
-const req = createRequest();
-const res = createResponse();
-const next = jest.fn();
+let req, res, next;
+beforeEach(() => {
+  req = createRequest();
+  res = createResponse();
+  next = jest.fn();
+});
 const PRODUCT_ID = "12345TEMPORARY";
 
 // create
