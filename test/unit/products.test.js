@@ -18,7 +18,7 @@ Product.create = jest.fn();
 // 2 - 그냥 이렇게 하면 되는거 아닌가?
 const req = createRequest();
 const res = createResponse();
-const next = null;
+const next = jest.fn();
 
 describe('Product Controller Create', () => {
   beforeEach(() => {
@@ -44,5 +44,13 @@ describe('Product Controller Create', () => {
     Product.create.mockReturnValue(mockProduct);
     await createProduct(req, res, next);
     expect(res._getJSONData()).toStrictEqual(mockProduct);
+  });
+
+  it('should handle errors', async () => {
+    const errorMessage = { message: 'description property missing' };
+    const rejectedPromise = Promise.reject(errorMessage);
+    Product.create.mockReturnValue(rejectedPromise);
+    await createProduct(req, res, next);
+    expect(next).toBeCalledWith(errorMessage);
   });
 });
