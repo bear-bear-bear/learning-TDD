@@ -1,8 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
 
-import abcRoutes from './routes';
 import connectDB from './lib/connectDB';
+import productsRouter from "./routes";
 
 dotenv.config();
 
@@ -11,10 +11,10 @@ const PORT = 3000;
 
 connectDB();
 app.use(express.json());
-app.use('/api/abc', abcRoutes);
+app.use('/api/products', productsRouter);
 
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.send('Hello');
 });
 
 app.listen(PORT, () => {

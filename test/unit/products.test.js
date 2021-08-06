@@ -29,20 +29,20 @@ describe('Product Controller Create', () => {
     expect(typeof createProduct).toBe('function');
   });
 
-  it('should call Product.create', () => {
-    createProduct(req, res, next);
+  it('should call Product.create', async () => {
+    await createProduct(req, res, next);
     expect(Product.create).toBeCalledWith(mockProduct);
   });
 
-  it('should return 201 response code', () => {
-    createProduct(req, res, next);
+  it('should return 201 response code', async () => {
+    await createProduct(req, res, next);
     expect(res.statusCode).toBe(201);
     expect(res._isEndCalled()).toBeTruthy();
   });
 
-  it('should return json body in response', () => {
+  it('should return json body in response', async () => {
     Product.create.mockReturnValue(mockProduct);
-    createProduct(req, res, next);
+    await createProduct(req, res, next);
     expect(res._getJSONData()).toStrictEqual(mockProduct);
   });
 });
