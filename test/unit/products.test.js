@@ -1,7 +1,7 @@
 import { createRequest } from 'node-mocks-http/lib/mockRequest';
 import { createResponse } from 'node-mocks-http/lib/mockResponse';
 
-import { createProduct, getProducts } from '../../controllers/products';
+import { createProduct, getProducts, getProductById } from '../../controllers/products';
 import Product from '../../models/Product';
 import mockProduct from '../mock-data/product.json';
 import mockProducts from '../mock-data/products.json';
@@ -9,10 +9,12 @@ import mockProducts from '../mock-data/products.json';
 // mock
 Product.create = jest.fn();
 Product.find = jest.fn();
+Product.findById = jest.fn();
 
 const req = createRequest();
 const res = createResponse();
 const next = jest.fn();
+const PRODUCT_ID = "12345TEMPORARY";
 
 // create
 describe('Product Controller Create', () => {
@@ -78,6 +80,41 @@ describe('Product Controller Get', () => {
     const rejectedPromise = Promise.reject(errorMessage);
     Product.find.mockReturnValue(rejectedPromise);
     await getProducts(req, res, next);
+    expect(next).toHaveBeenCalledWith(errorMessage);
+  });
+});
+
+describe('Product Controller GetById', () => {
+  it('should have a getProductById', () => {
+    expect(typeof getProductById).toBe('function');
+  });
+
+  it('should call Product.findByID', async () => {
+    req.params.productId = PRODUCT_ID;
+    await getProductById(req, res, next);
+    expect(Product.findById).toBeCalledWith(PRODUCT_ID);
+  });
+
+  it('should return json body in response code 200', async () => {
+    Product.findById.mockReturnValue(mockProduct);
+    await getProductById(req, res, next);
+    expect(res.statusCode).toBe(200);
+    expect(res._getJSONData()).toStrictEqual(mockProduct);
+    expect(res._isEndCalled()).toBeTruthy();
+  });
+
+  it('should return 404 when item does not exist', async () => {
+    Product.findById.mockReturnValue(null);
+    await getProductById(req, res, next);
+    expect(res.statusCode).toBe(404);
+    expect(res._isEndCalled()).toBeTruthy();
+  });
+
+  it('should handle errors', async () => {
+    const errorMessage = { message: 'error' };
+    const rejectedPromise = Promise.reject(errorMessage);
+    Product.findById.mockReturnValue(rejectedPromise);
+    await getProductById(req, res, next);
     expect(next).toHaveBeenCalledWith(errorMessage);
   });
 });
