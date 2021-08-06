@@ -4,7 +4,11 @@ import app from '../../server';
 import mockProduct from '../mock-data/product.json';
 
 let firstProduct; // Will set real product at 'GET /api/products' test, and use at 'GET /api/products/:productId'
-const FAKE_PRODUCT_ID = '610cfff4be57ab1694bfe64e'; // Must be similar to real product id
+const FAKE_PRODUCT_ID = '610cfff4be57ab1694bf1122'; // Must be similar to real product id
+const FAKE_UPDATED_CONTENT = {
+  name: 'updated name',
+  description: 'updated description'
+};
 
 // create
 it('POST /api/products', async () => {
@@ -48,6 +52,23 @@ it('GET /api/products/:productId', async () => {
 
 it('GET id does not exist /api/products/:productId', async () => {
   const { statusCode } = await request(app).get(`/api/products/${FAKE_PRODUCT_ID}`);
+
+  expect(statusCode).toBe(404);
+});
+
+it('PUT /api/products', async () => {
+  const { statusCode, body } = await request(app)
+      .put(`/api/products/${firstProduct._id}`)
+      .send(FAKE_UPDATED_CONTENT);
+
+  expect(statusCode).toBe(200);
+  expect(body).toMatchObject(FAKE_UPDATED_CONTENT);
+});
+
+it('should return 404 on PUT /api/products', async () => {
+  const { statusCode } = await request(app)
+      .put(`/api/products/${FAKE_PRODUCT_ID}`)
+      .send(FAKE_UPDATED_CONTENT);
 
   expect(statusCode).toBe(404);
 });
