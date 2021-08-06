@@ -11,7 +11,7 @@ Facebook에 의해 만들어진 테스팅 프레임워크. 최소한의 설정�
 <br>
 
 
-## Jest 파일 구성 및 구조 (간략히)
+## Jest 파일 구성 및 구조 (주요 기능만 간략히)
 ---
 - ***describe***<br>
 `argument (name, fn)`<br>
