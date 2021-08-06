@@ -1,25 +1,17 @@
 import { createRequest } from 'node-mocks-http/lib/mockRequest';
 import { createResponse } from 'node-mocks-http/lib/mockResponse';
 
-import { createProduct } from '../../controllers/products';
+import { createProduct, getProducts } from '../../controllers/products';
 import Product from '../../models/Product';
 import mockProduct from '../mock-data/product.json';
 
+// mock
 Product.create = jest.fn();
-
-// 1 - 강의에서 안내해 준 것
-// let req, res, next;
-// beforeEach(() => {
-//   req = createRequest();
-//   res = createResponse();
-//   next = null;
-// });
-
-// 2 - 그냥 이렇게 하면 되는거 아닌가?
 const req = createRequest();
 const res = createResponse();
 const next = jest.fn();
 
+// create
 describe('Product Controller Create', () => {
   beforeEach(() => {
     req.body = mockProduct;
@@ -52,5 +44,12 @@ describe('Product Controller Create', () => {
     Product.create.mockReturnValue(rejectedPromise);
     await createProduct(req, res, next);
     expect(next).toBeCalledWith(errorMessage);
+  });
+});
+
+// read
+describe('Product Controller Get', () => {
+  it('should have a getProducts function', () => {
+    expect(typeof getProducts).toBe('function');
   });
 });
