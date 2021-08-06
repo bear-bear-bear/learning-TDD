@@ -5,9 +5,9 @@ import mockProduct from '../mock-data/product.json';
 
 let firstProduct; // Will set real product at 'GET /api/products' test, and use at 'GET /api/products/:productId'
 const FAKE_PRODUCT_ID = '610cfff4be57ab1694bf1122'; // Must be similar to real product id
-const FAKE_UPDATED_CONTENT = {
-  name: 'updated name',
-  description: 'updated description'
+const FAKE_PRODUCT_CONTENT = {
+  name: 'name',
+  description: 'description'
 };
 
 // create
@@ -56,19 +56,34 @@ it('GET id does not exist /api/products/:productId', async () => {
   expect(statusCode).toBe(404);
 });
 
+// update
 it('PUT /api/products', async () => {
   const { statusCode, body } = await request(app)
       .put(`/api/products/${firstProduct._id}`)
-      .send(FAKE_UPDATED_CONTENT);
+      .send(FAKE_PRODUCT_CONTENT);
 
   expect(statusCode).toBe(200);
-  expect(body).toMatchObject(FAKE_UPDATED_CONTENT);
+  expect(body).toMatchObject(FAKE_PRODUCT_CONTENT);
 });
 
 it('should return 404 on PUT /api/products', async () => {
   const { statusCode } = await request(app)
       .put(`/api/products/${FAKE_PRODUCT_ID}`)
-      .send(FAKE_UPDATED_CONTENT);
+      .send(FAKE_PRODUCT_CONTENT);
+
+  expect(statusCode).toBe(404);
+});
+
+// delete
+it('DELETE /api/products', async () => {
+  const { statusCode, body } = await request(app).delete(`/api/products/${firstProduct._id}`);
+
+  expect(statusCode).toBe(200);
+  expect(body._id).toStrictEqual(firstProduct._id); // Content is changed at update test
+});
+
+it('should return 404 on DELETE /api/products', async () => {
+  const { statusCode } = await request(app).delete(`/api/products/${FAKE_PRODUCT_ID}`);
 
   expect(statusCode).toBe(404);
 });
