@@ -10,6 +10,10 @@ export const createProduct = async (req, res, next) => {
 };
 
 export const getProducts = async (req, res, next) => {
-  const products = await Product.find({});
-  res.status(200).json(products);
+  try {
+    const products = await Product.find({});
+    res.status(200).json(products);
+  } catch (error) {
+    next(error);
+  }
 };
