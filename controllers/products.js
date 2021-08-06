@@ -9,4 +9,6 @@ export const createProduct = async (req, res, next) => {
   }
 };
 
-export const getProducts = () => {};
+export const getProducts = async (req, res, next) => {
+  await Product.find({});
+};

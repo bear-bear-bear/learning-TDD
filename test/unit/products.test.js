@@ -7,6 +7,8 @@ import mockProduct from '../mock-data/product.json';
 
 // mock
 Product.create = jest.fn();
+Product.find = jest.fn();
+
 const req = createRequest();
 const res = createResponse();
 const next = jest.fn();
@@ -51,5 +53,10 @@ describe('Product Controller Create', () => {
 describe('Product Controller Get', () => {
   it('should have a getProducts function', () => {
     expect(typeof getProducts).toBe('function');
+  });
+
+  it('should call Product.find({})', async () => {
+    await getProducts(req, res, next);
+    expect(Product.find).toHaveBeenCalledWith({});
   });
 });
